@@ -1,0 +1,78 @@
+---
+import type { Locale } from "../i18n/config";
+import { experience } from "../content/experience";
+import SectionHead from "./SectionHead.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const copy = {
+  es: {
+    label: "Experiencia",
+    title: "Dónde he trabajado.",
+    indexNote: "Lo profesional primero. Lo anterior también cuenta.",
+    surfaces: "Dónde aterrizó el trabajo",
+    tools: "Herramientas",
+  },
+  en: {
+    label: "Experience",
+    title: "Where I have worked.",
+    indexNote: "Professional work first. What came before still counts.",
+    surfaces: "Where the work landed",
+    tools: "Tools",
+  },
+}[locale];
+---
+
+<section class="band" id="experiencia" aria-labelledby="experiencia-title">
+  <div class="shell index-grid">
+    <div class="index-col">
+      <p class="kicker">{copy.label}</p>
+      <p class="index-note">{copy.indexNote}</p>
+    </div>
+
+    <div>
+      <SectionHead id="experiencia-title" title={copy.title} />
+
+      {
+        experience[locale].map((item) => (
+          <article class="timeline-item">
+            <div class="timeline-head">
+              <h3 class="display title-md">{item.title}</h3>
+              <p class="meta">{item.period}</p>
+            </div>
+            <p class="timeline-org">
+              {item.organization} · {item.location}
+            </p>
+            <p class="prose prose-tight">
+              {item.description}
+            </p>
+
+            {item.surfaces && (
+              <div class="surface-list">
+                <p class="kicker kicker-quiet">{copy.surfaces}</p>
+                {item.surfaces.map((surface) => (
+                  <div class="surface-item">
+                    <p class="title-sm">{surface.name}</p>
+                    <p class="surface-detail">{surface.detail}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {item.technologies && (
+              <ul class="tag-row tag-row-spaced" aria-label={copy.tools}>
+                {item.technologies.map((tech) => (
+                  <li class="tag">{tech}</li>
+                ))}
+              </ul>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

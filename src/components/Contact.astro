@@ -1,5 +1,44 @@
 ---
-import { site } from '../content/site';
-import ExternalLink from './ExternalLink.astro';
+import type { Locale } from "../i18n/config";
+import { contact, identity, location } from "../content/site";
+import ExternalLink from "./ExternalLink.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const copy = {
+  es: { label: "Contacto", where: "Basado en" },
+  en: { label: "Contact", where: "Based in" },
+}[locale];
 ---
-<section class="contact" id="contact" aria-labelledby="contact-title"><div class="shell contact-grid"><div><p class="section-kicker mono">Contacto</p><h2 id="contact-title">Si hay un problema interesante, hablemos.</h2></div><div class="contact-copy"><p>Estoy abierto a conocer equipos, productos y colaboraciones donde el software tenga impacto real.</p><a class="contact-email" href={`mailto:${site.email}`}>{site.email}</a><div class="contact-links">{site.links.map((link) => <ExternalLink href={link.href}>{link.label}</ExternalLink>)}</div></div></div></section>
+
+<section class="band band-signal" id="contacto" aria-labelledby="contacto-title">
+  <div class="shell contact-grid">
+    <div>
+      <p class="kicker">{copy.label}</p>
+      <h2 class="display title-lg contact-title" id="contacto-title">
+        {contact[locale].title}
+      </h2>
+    </div>
+
+    <div>
+      <p class="prose">{contact[locale].body}</p>
+      <a class="contact-email" href={`mailto:${identity.email}`}>
+        {identity.email}
+      </a>
+      <div class="contact-links">
+        {
+          identity.links.map((link) => (
+            <ExternalLink class="text-link" href={link.href}>
+              {link.label}
+            </ExternalLink>
+          ))
+        }
+      </div>
+      <p class="record-caption">{copy.where} {location[locale]}.</p>
+    </div>
+  </div>
+</section>

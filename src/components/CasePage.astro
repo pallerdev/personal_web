@@ -1,0 +1,173 @@
+---
+import { routeFor, type Locale, type RouteKey } from "../i18n/config";
+import { SITE_URL } from "../config";
+import { identity } from "../content/site";
+import { projectBySlug } from "../content/projects";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArchitectureDiagram from "./ArchitectureDiagram.astro";
+import ExternalLink from "./ExternalLink.astro";
+
+interface Props {
+  locale: Locale;
+  slug: "gardenview" | "camaleon-teatro";
+  routeKey: RouteKey;
+  diagram: "gardenview" | "camaleon";
+  /** Languages named in the structured data for this project. */
+  programmingLanguage: string[];
+}
+
+const { locale, slug, routeKey, diagram, programmingLanguage } = Astro.props;
+const project = projectBySlug(locale, slug);
+
+const copy = {
+  es: {
+    back: "Volver a proyectos",
+    decisions: "Decisiones",
+    decisionsTitle: "Las decisiones que ordenan el sistema.",
+    retro: "Retrospectiva",
+    retroTitle: "Lo que cambiaría.",
+    architecture: "Arquitectura",
+    spec: "Ficha",
+    stack: "Stack",
+  },
+  en: {
+    back: "Back to projects",
+    decisions: "Decisions",
+    decisionsTitle: "The decisions that hold the system together.",
+    retro: "Retrospective",
+    retroTitle: "What I would change.",
+    architecture: "Architecture",
+    spec: "Details",
+    stack: "Stack",
+  },
+}[locale];
+
+const canonicalUrl = new URL(routeFor(routeKey, locale), SITE_URL).toString();
+const primaryLink = project.links[0];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  name: project.title,
+  description: project.summary,
+  abstract: project.brief,
+  url: canonicalUrl,
+  ...(primaryLink ? { codeRepository: primaryLink.href } : {}),
+  programmingLanguage,
+  author: { "@type": "Person", name: identity.name },
+};
+---
+
+<BaseLayout
+  {locale}
+  {routeKey}
+  title={project.title}
+  description={project.summary}
+  jsonLd={jsonLd}
+>
+  <article>
+    <header class="case-hero">
+      <div class="shell">
+        <a class="back-link" href={`${routeFor("home", locale)}#proyectos`}>
+          <span aria-hidden="true">←</span> {copy.back}
+        </a>
+        <div class="hero-rule case-rule" aria-hidden="true"></div>
+        <p class="kicker">{project.context} · {project.period}</p>
+        <h1 class="display title-xl">{project.title}</h1>
+        <p class="lede">{project.brief}</p>
+
+        <dl class="spec-table">
+          {
+            project.spec.map((row) => (
+              <div class="spec-row">
+                <dt class="record-label">{row.label}</dt>
+                <dd>{row.value}</dd>
+              </div>
+            ))
+          }
+          <div class="spec-row">
+            <dt class="record-label">{copy.stack}</dt>
+            <dd>{project.technologies.join(" · ")}</dd>
+          </div>
+        </dl>
+      </div>
+    </header>
+
+    <div class="band">
+      <div class="shell index-grid">
+        <div class="index-col">
+          <p class="kicker">{copy.spec}</p>
+          <p class="index-note">{project.summary}</p>
+        </div>
+
+        <div>
+          {
+            project.sections.map((section) => (
+              <section class="case-section">
+                <p class="kicker kicker-quiet">{section.label}</p>
+                <h2 class="display title-lg case-section-title">
+                  {section.title}
+                </h2>
+                <div class="prose">
+                  {section.body.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                </div>
+              </section>
+            ))
+          }
+
+          <section class="case-section">
+            <p class="kicker kicker-quiet">{copy.architecture}</p>
+            <ArchitectureDiagram {locale} variant={diagram} />
+          </section>
+
+          <section class="case-section">
+            <p class="kicker kicker-quiet">{copy.decisions}</p>
+            <h2 class="display title-lg case-section-title">
+              {copy.decisionsTitle}
+            </h2>
+            <ol class="decision-list">
+              {
+                project.decisions.map((decision) => (
+                  <li class="decision-item">
+                    <h3 class="title-sm">{decision.title}</h3>
+                    <p class="decision-body">{decision.body}</p>
+                  </li>
+                ))
+              }
+            </ol>
+          </section>
+
+          <section class="case-section">
+            <p class="kicker kicker-quiet">{copy.retro}</p>
+            <h2 class="display title-lg case-section-title">
+              {copy.retroTitle}
+            </h2>
+            <ul class="retro-list">
+              {
+                project.retrospective.map((item) => (
+                  <li class="retro-item">
+                    <span class="retro-mark" aria-hidden="true"></span>
+                    <p>{item}</p>
+                  </li>
+                ))
+              }
+            </ul>
+          </section>
+
+          {
+            primaryLink && (
+              <div class="case-cta">
+                <p class="prose">{project.summary}</p>
+                <ExternalLink class="button" href={primaryLink.href}>
+                  {primaryLink.label}
+                </ExternalLink>
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,5 +1,15 @@
 ---
-interface Props { href: string; class?: string }
-const { href, class: className } = Astro.props;
+interface Props {
+  href: string;
+  class?: string;
+  /** Language of the page being linked to, when it is not the current one. */
+  lang?: string;
+}
+
+const { href, class: className, lang } = Astro.props;
 ---
-<a href={href} class={className} target="_blank" rel="noreferrer"><slot /><span class="sr-only"> (se abre en una pestaña nueva)</span></a>
+
+<a {href} class={className} {lang} target="_blank" rel="noreferrer">
+  <slot />
+  <span aria-hidden="true">↗</span>
+</a>

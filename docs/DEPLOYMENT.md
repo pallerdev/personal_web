@@ -19,7 +19,7 @@ GitHub Pages no forma parte de la arquitectura final. La configuración antigua 
 
 La configuración actual presupone `https://paller.dev`. Si se utiliza otro dominio, actualiza antes del despliegue:
 
-1. `src/config.ts`, propiedad `url`.
+1. `src/config.ts`, constante `SITE_URL`.
 2. `astro.config.ts`, propiedad `site`.
 3. `public/robots.txt`, URL del sitemap.
 

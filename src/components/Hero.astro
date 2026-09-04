@@ -1,14 +1,88 @@
 ---
-import { site } from '../content/site';
-import ExternalLink from './ExternalLink.astro';
-import StatusPanel from './StatusPanel.astro';
+import type { Locale } from "../i18n/config";
+import {
+  facts,
+  headline,
+  identity,
+  intro,
+  location,
+  recordUpdated,
+  role,
+  tagline,
+} from "../content/site";
+import ExternalLink from "./ExternalLink.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const copy = {
+  es: {
+    seeRecord: "Ver el registro",
+    write: "Escríbeme",
+    recordLabel: "Registro de trabajo",
+    caption: `Contado a partir de las pull requests firmadas en GitHub. Actualizado el ${new Intl.DateTimeFormat(
+      "es-ES",
+      { day: "numeric", month: "long", year: "numeric" },
+    ).format(new Date(recordUpdated))}.`,
+  },
+  en: {
+    seeRecord: "See the record",
+    write: "Write to me",
+    recordLabel: "Work record",
+    caption: `Counted from the pull requests authored on GitHub. Updated ${new Intl.DateTimeFormat(
+      "en-GB",
+      { day: "numeric", month: "long", year: "numeric" },
+    ).format(new Date(recordUpdated))}.`,
+  },
+}[locale];
 ---
-<section class="hero" aria-labelledby="hero-title"><div class="shell hero-grid">
-  <div class="hero-copy">
-    <p class="hero-role mono">Pablo Aller · Backend developer</p>
-    <h1 id="hero-title">{site.headline}</h1>
-    <p class="hero-intro">{site.intro}</p>
-    <div class="hero-actions"><a class="button button-primary" href="#work">Ver trabajo</a><a class="button button-secondary" href="#contact">Contactar</a></div>
-    <div class="hero-links">{site.links.map((link) => <ExternalLink href={link.href}>{link.label}</ExternalLink>)}</div>
-  </div><StatusPanel />
-</div></section>
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="shell hero-grid">
+    <div>
+      <div class="hero-rule" aria-hidden="true"></div>
+      <p class="kicker hero-tagline">{tagline[locale]}</p>
+      <h1 class="display title-xl" id="hero-title">
+        {headline[locale]}
+      </h1>
+      <p class="lede">{intro[locale]}</p>
+      <div class="hero-actions">
+        <a class="button" href="#registro">{copy.seeRecord}</a>
+        <a class="button button-ghost" href={`mailto:${identity.email}`}>
+          {copy.write}
+        </a>
+      </div>
+    </div>
+
+    <aside aria-labelledby="hero-record-title">
+      <h2 class="kicker" id="hero-record-title">{copy.recordLabel}</h2>
+      <dl class="record">
+        {
+          facts[locale].map((fact) => (
+            <div class="record-row">
+              <dt class="record-label">
+                {fact.label}
+                {fact.note && <span class="record-note">{fact.note}</span>}
+              </dt>
+              <dd class="record-value">{fact.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="record-caption">{copy.caption}</p>
+      <p class="record-caption">{role[locale]} · {location[locale]}</p>
+      <div class="contact-links">
+        {
+          identity.links.map((link) => (
+            <ExternalLink class="text-link" href={link.href}>
+              {link.label}
+            </ExternalLink>
+          ))
+        }
+      </div>
+    </aside>
+  </div>
+</section>

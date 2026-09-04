@@ -1,0 +1,61 @@
+---
+import type { Locale } from "../i18n/config";
+import { stack } from "../content/site";
+import SectionHead from "./SectionHead.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const copy = {
+  es: {
+    label: "Herramientas",
+    title: "Agrupadas por cuánto trabajo real cargan.",
+    intro:
+      "Sin barras de porcentaje. Lo único que dice algo útil es dónde uso cada herramienta y con qué frecuencia.",
+    indexNote: "De lo que toco a diario a lo que elijo cuando decido yo.",
+  },
+  en: {
+    label: "Tools",
+    title: "Grouped by how much real work they carry.",
+    intro:
+      "No percentage bars. The only useful information is where I use each tool and how often.",
+    indexNote: "From what I touch daily to what I pick when the call is mine.",
+  },
+}[locale];
+---
+
+<section class="band" id="herramientas" aria-labelledby="herramientas-title">
+  <div class="shell index-grid">
+    <div class="index-col">
+      <p class="kicker">{copy.label}</p>
+      <p class="index-note">{copy.indexNote}</p>
+    </div>
+
+    <div>
+      <SectionHead
+        id="herramientas-title"
+        title={copy.title}
+        intro={copy.intro}
+      />
+
+      <div class="stack-grid">
+        {
+          stack[locale].map((group) => (
+            <article class="stack-group">
+              <h3 class="title-sm">{group.label}</h3>
+              <p class="stack-note">{group.note}</p>
+              <ul class="stack-items" aria-label={group.label}>
+                {group.items.map((item) => (
+                  <li class="tag">{item}</li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

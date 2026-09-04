@@ -1,6 +1,33 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { routeFor } from "../i18n/config";
 ---
-<BaseLayout title="Página no encontrada" description="La página que buscas no existe." canonicalPath="/404.html">
-  <section class="not-found"><div class="shell"><p class="mono">404 · Ruta no encontrada</p><h1>Este camino no lleva a ningún proyecto.</h1><p>La dirección puede haber cambiado o la página ya no existe.</p><a class="button button-dark" href="/">Volver al inicio</a></div></section>
+
+<BaseLayout
+  locale="es"
+  routeKey="home"
+  title="Página no encontrada"
+  description="La página que buscas no existe."
+>
+  <section class="not-found">
+    <div class="shell">
+      <div class="hero-rule" aria-hidden="true"></div>
+      <p class="kicker">404 · Ruta no encontrada</p>
+      <h1 class="display title-xl">Aquí no hay nada que leer.</h1>
+      <p class="lede">
+        La dirección ha cambiado o la página ya no existe. El trabajo sigue
+        estando en la portada.
+      </p>
+      <p class="lede" lang="en">
+        This address has changed or no longer exists. The work is still on the
+        home page.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href={routeFor("home", "es")}>Volver al inicio</a>
+        <a class="button button-ghost" href={routeFor("home", "en")} lang="en">
+          Home in English
+        </a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

@@ -1,8 +1,0 @@
----
-import { experience } from '../content/experience';
-import SectionHeading from './SectionHeading.astro';
----
-<section class="section experience" id="experience" aria-labelledby="experience-title"><div class="shell">
-  <SectionHeading id="experience-title" label="Experiencia" title="Aprender rápido. Entregar con responsabilidad." />
-  <div class="timeline">{experience.map((item, index) => <article class="timeline-item"><p class="mono timeline-period">{item.period}</p><div><div class="timeline-title"><h3>{item.title}</h3><p>{item.organization} · {item.location}</p></div><p class="timeline-description">{item.description}</p>{item.technologies && <ul class="tech-list" aria-label="Tecnologías utilizadas">{item.technologies.map((tech) => <li>{tech}</li>)}</ul>}</div><span class="timeline-number mono" aria-hidden="true">0{index + 1}</span></article>)}</div>
-</div></section>

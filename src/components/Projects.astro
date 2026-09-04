@@ -1,0 +1,105 @@
+---
+import { routeFor, type Locale } from "../i18n/config";
+import { projects } from "../content/projects";
+import ExternalLink from "./ExternalLink.astro";
+import SectionHead from "./SectionHead.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const copy = {
+  es: {
+    title: "Dos proyectos contados de principio a fin.",
+    intro:
+      "Uno lo diseñé y lo construí completo como proyecto de fin de ciclo. El otro está en producción para un cliente. Los dos tienen su caso escrito: el problema, las decisiones y lo que cambiaría.",
+    label: "Proyectos",
+    indexNote: "Con caso de estudio. Enlaces a lo que está publicado.",
+    readCase: "Leer el caso",
+    otherLabel: "Otro código público",
+  },
+  en: {
+    title: "Two projects told from start to finish.",
+    intro:
+      "One I designed and built end to end as my final coursework. The other is in production for a client. Both have a written case: the problem, the decisions and what I would change.",
+    label: "Projects",
+    indexNote: "With a written case. Links point at what is published.",
+    readCase: "Read the case",
+    otherLabel: "Other public code",
+  },
+}[locale];
+
+const list = projects[locale];
+const featured = list.filter((project) => project.featured);
+const others = list.filter((project) => !project.featured);
+---
+
+<section class="band" id="proyectos" aria-labelledby="proyectos-title">
+  <div class="shell index-grid">
+    <div class="index-col">
+      <p class="kicker">{copy.label}</p>
+      <p class="index-note">{copy.indexNote}</p>
+    </div>
+
+    <div>
+      <SectionHead id="proyectos-title" title={copy.title} intro={copy.intro} />
+
+      <div class="project-list">
+        {
+          featured.map((project) => (
+            <article class="project-card" aria-labelledby={`p-${project.slug}`}>
+              <div class="project-card-head">
+                <p class="meta">
+                  {project.context} · {project.period}
+                </p>
+                <h3 class="display title-md" id={`p-${project.slug}`}>
+                  {project.title}
+                </h3>
+              </div>
+              <p class="project-summary">{project.summary}</p>
+              <ul class="tag-row" aria-label={project.title}>
+                {project.technologies.map((item) => (
+                  <li class="tag">{item}</li>
+                ))}
+              </ul>
+              <div class="project-links">
+                <a class="text-link" href={routeFor(project.route, locale)}>
+                  {copy.readCase} <span aria-hidden="true">→</span>
+                </a>
+                {project.links.map((link) => (
+                  <ExternalLink class="text-link" href={link.href}>
+                    {link.label}
+                  </ExternalLink>
+                ))}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="other-work">
+        <p class="kicker kicker-quiet">{copy.otherLabel}</p>
+        {
+          others.map((project) => (
+            <div class="other-item">
+              <h3 class="title-sm">{project.title}</h3>
+              <p class="project-summary">{project.summary}</p>
+              <ul class="tag-row" aria-label={project.title}>
+                {project.technologies.map((item) => (
+                  <li class="tag">{item}</li>
+                ))}
+              </ul>
+              {project.links.map((link) => (
+                <ExternalLink class="text-link" href={link.href}>
+                  {link.label}
+                </ExternalLink>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

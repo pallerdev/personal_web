@@ -15,4 +15,16 @@ export default [
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   ...astro.configs["flat/recommended"],
+  {
+    /* Build scripts run in Node, not in the browser. */
+    files: ["**/*.mjs"],
+    languageOptions: {
+      globals: {
+        Buffer: "readonly",
+        console: "readonly",
+        process: "readonly",
+        URL: "readonly",
+      },
+    },
+  },
 ];

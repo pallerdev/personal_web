@@ -1,0 +1,74 @@
+---
+import { routeFor, type Locale } from "../i18n/config";
+import { SITE_URL } from "../config";
+import { identity, location, metaDescription, role } from "../content/site";
+import { projects } from "../content/projects";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "./Hero.astro";
+import Ledger from "./Ledger.astro";
+import Projects from "./Projects.astro";
+import Experience from "./Experience.astro";
+import Stack from "./Stack.astro";
+import About from "./About.astro";
+import Contact from "./Contact.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: identity.name,
+  jobTitle: role[locale],
+  email: `mailto:${identity.email}`,
+  url: new URL(routeFor("home", locale), SITE_URL).toString(),
+  description: metaDescription[locale],
+  address: { "@type": "PostalAddress", addressLocality: "Brno", addressCountry: "CZ" },
+  homeLocation: { "@type": "Place", name: location[locale] },
+  sameAs: identity.links.map(({ href }) => href),
+  worksFor: {
+    "@type": "Organization",
+    name: "Continero",
+    url: "https://continero.com",
+  },
+  knowsAbout: [
+    "C#",
+    ".NET",
+    "SQL Server",
+    "React",
+    "TypeScript",
+    "Flutter",
+    "Python",
+    "Java",
+    "Spring Boot",
+    "Docker",
+  ],
+};
+
+const projectList = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: locale === "es" ? "Proyectos" : "Projects",
+  itemListElement: projects[locale]
+    .filter((project) => project.featured)
+    .map((project, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: new URL(routeFor(project.route, locale), SITE_URL).toString(),
+      name: project.title,
+    })),
+};
+---
+
+<BaseLayout {locale} routeKey="home" jsonLd={[person, projectList]}>
+  <Hero {locale} />
+  <Ledger {locale} />
+  <Projects {locale} />
+  <Experience {locale} />
+  <Stack {locale} />
+  <About {locale} />
+  <Contact {locale} />
+</BaseLayout>

@@ -1,0 +1,132 @@
+---
+import type { Locale } from "../i18n/config";
+import { ledger, stateLabel, type EntryState } from "../content/ledger";
+import ExternalLink from "./ExternalLink.astro";
+import SectionHead from "./SectionHead.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const copy = {
+  es: {
+    title: "Lo que he entregado, línea por línea.",
+    intro:
+      "Cada línea corresponde a un cambio real que salió a producción. El trabajo de Continero está descrito por funcionalidad, no copiando mensajes de commit de repositorios privados.",
+    products: "Productos",
+    indexNote:
+      "Cuatro productos: dos en Continero, dos propios. Ordenados por lo reciente.",
+    entries: "cambios",
+    legend: "Leyenda",
+  },
+  en: {
+    title: "What I have shipped, line by line.",
+    intro:
+      "Every line matches a real change that reached production. The Continero work is described by feature rather than by copying commit messages out of private repositories.",
+    products: "Products",
+    indexNote:
+      "Four products: two at Continero, two of my own. Most recent first.",
+    entries: "changes",
+    legend: "Key",
+  },
+}[locale];
+
+const monthFormatter = new Intl.DateTimeFormat(
+  locale === "es" ? "es-ES" : "en-GB",
+  { month: "short", year: "numeric" },
+);
+
+/** "2026-09" reads as a month, so anchor it to the first day of that month. */
+const formatMonth = (value: string) =>
+  monthFormatter.format(new Date(`${value}-01T00:00:00Z`));
+
+const products = ledger[locale];
+const totalEntries = products.reduce(
+  (sum, product) => sum + product.entries.length,
+  0,
+);
+
+const stateOrder: EntryState[] = ["shipped", "review", "live"];
+---
+
+<section class="band band-invert" id="registro" aria-labelledby="registro-title">
+  <div class="shell index-grid">
+    <div class="index-col">
+      <p class="kicker">{copy.products}</p>
+      <p class="index-note">{copy.indexNote}</p>
+      <p class="index-note">{totalEntries} {copy.entries}</p>
+    </div>
+
+    <div>
+      <SectionHead
+        id="registro-title"
+        title={copy.title}
+        intro={copy.intro}
+      />
+
+      {
+        products.map((product) => (
+          <article class="ledger-product" aria-labelledby={`product-${product.id}`}>
+            <header class="product-head">
+              <div class="product-title-row">
+                <h3 class="display title-md" id={`product-${product.id}`}>
+                  {product.name}
+                </h3>
+                <p class="meta">{product.context}</p>
+              </div>
+              <p class="product-what">{product.what}</p>
+              <ul class="tag-row" aria-label={product.name}>
+                {product.stack.map((item) => (
+                  <li class="tag">{item}</li>
+                ))}
+              </ul>
+              {product.href && (
+                <p>
+                  <ExternalLink class="text-link" href={product.href}>
+                    {product.hrefLabel}
+                  </ExternalLink>
+                </p>
+              )}
+            </header>
+
+            <ol>
+              {product.entries.map((entry) => (
+                <li class="entry">
+                  <div class="entry-head">
+                    <p class="entry-date">
+                      <time datetime={entry.date}>{formatMonth(entry.date)}</time>
+                    </p>
+                    <p class="entry-surface">{entry.surface}</p>
+                  </div>
+                  <p class="entry-summary">{entry.summary}</p>
+                  {/* Most entries are merged, so only the exceptions are
+                      labelled in print; the mark and the key carry the rest. */}
+                  <p class={`state state-${entry.state}`}>
+                    <span class="state-mark" aria-hidden="true"></span>
+                    <span class={entry.state === "shipped" ? "sr-only" : ""}>
+                      {stateLabel[locale][entry.state]}
+                    </span>
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </article>
+        ))
+      }
+
+      <div class="ledger-legend">
+        <p class="kicker kicker-quiet">{copy.legend}</p>
+        {
+          stateOrder.map((state) => (
+            <p class={`state state-${state}`}>
+              <span class="state-mark" aria-hidden="true"></span>
+              {stateLabel[locale][state]}
+            </p>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

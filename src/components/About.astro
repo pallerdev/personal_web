@@ -1,9 +1,75 @@
 ---
-import { education } from '../content/education';
-import SectionHeading from './SectionHeading.astro';
+import type { Locale } from "../i18n/config";
+import { about } from "../content/site";
+import { education, languages } from "../content/education";
+import SectionHead from "./SectionHead.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const copy = {
+  es: {
+    label: "Sobre mí",
+    indexNote: "El recorrido, sin adornos.",
+    education: "Formación",
+    languages: "Idiomas",
+  },
+  en: {
+    label: "About",
+    indexNote: "The route here, without decoration.",
+    education: "Education",
+    languages: "Languages",
+  },
+}[locale];
 ---
-<section class="section about" id="about" aria-labelledby="about-title"><div class="shell">
-  <SectionHeading id="about-title" label="Trayectoria" title="De Zaragoza a Brno, siempre construyendo." />
-  <div class="about-grid"><div class="about-copy"><p>Descubrí que quería dedicarme al software mientras estudiaba. Desde entonces he combinado formación, proyectos propios y trabajo profesional.</p><p>Vivir en Estados Unidos y ahora en República Checa cambió mi forma de comunicar y colaborar. Fuera del código, me interesan Linux, viajar y la música. Son otras formas de explorar sistemas, lugares e ideas.</p><div class="now-note"><p class="mono">Ahora</p><p>Profundizando en backend, automatización e IA aplicada al trabajo de desarrollo.</p></div></div>
-  <ol class="education-list">{education.map((item) => <li><p class="mono">{item.period}</p><h3>{item.title}</h3><p>{item.institution}</p>{item.detail && <p class="education-detail">{item.detail}</p>}</li>)}</ol></div>
-</div></section>
+
+<section class="band" id="sobre-mi" aria-labelledby="sobre-mi-title">
+  <div class="shell index-grid">
+    <div class="index-col">
+      <p class="kicker">{copy.label}</p>
+      <p class="index-note">{copy.indexNote}</p>
+    </div>
+
+    <div>
+      <SectionHead id="sobre-mi-title" title={about[locale].title} />
+
+      <div class="about-grid">
+        <div class="prose">
+          {about[locale].body.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+
+        <div>
+          <p class="kicker kicker-quiet">{copy.education}</p>
+          <ol class="record-list">
+            {
+              education[locale].map((item) => (
+                <li class="record-item">
+                  <p class="meta">{item.period}</p>
+                  <h3 class="title-sm">{item.title}</h3>
+                  <p class="record-item-detail">{item.institution}</p>
+                  {item.detail && (
+                    <p class="record-item-detail">{item.detail}</p>
+                  )}
+                </li>
+              ))
+            }
+          </ol>
+
+          <div class="language-row">
+            <p class="kicker kicker-quiet">{copy.languages}</p>
+            {
+              languages[locale].map((language) => (
+                <p class="meta">
+                  {language.name} — {language.level}
+                </p>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

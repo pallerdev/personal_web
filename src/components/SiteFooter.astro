@@ -1,9 +1,54 @@
 ---
-import { site } from '../content/site';
-import ExternalLink from './ExternalLink.astro';
+import type { Locale } from "../i18n/config";
+import { footerStatement, identity } from "../content/site";
+import ExternalLink from "./ExternalLink.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const copy = {
+  es: {
+    built: "Astro estático, escrito en Linux. Código abierto.",
+    source: "Código de este sitio",
+    email: "Email",
+  },
+  en: {
+    built: "Static Astro, written on Linux. Open source.",
+    source: "Source of this site",
+    email: "Email",
+  },
+}[locale];
+
+const year = new Date().getFullYear();
 ---
-<footer class="site-footer"><div class="shell footer-grid">
-  <p class="footer-statement">Software con criterio.<br />Personas antes que ruido.</p>
-  <div><p class="mono footer-label">Pablo Aller · 2026</p><p>Hecho con Astro en Linux.</p></div>
-  <div class="footer-links">{site.links.map((link) => <ExternalLink href={link.href}>{link.label}</ExternalLink>)}<a href={`mailto:${site.email}`}>Email</a></div>
-</div></footer>
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <p class="footer-statement">{footerStatement[locale]}</p>
+
+    <div>
+      <p class="meta">{identity.name} · {year}</p>
+      <p class="meta">{copy.built}</p>
+    </div>
+
+    <div class="footer-links">
+      {
+        identity.links.map((link) => (
+          <ExternalLink class="text-link" href={link.href}>
+            {link.label}
+          </ExternalLink>
+        ))
+      }
+      <ExternalLink
+        class="text-link"
+        href="https://github.com/pallerdev/personal_web"
+      >
+        {copy.source}
+      </ExternalLink>
+      <a class="text-link" href={`mailto:${identity.email}`}>{copy.email}</a>
+    </div>
+  </div>
+</footer>

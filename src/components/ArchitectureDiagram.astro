@@ -1,0 +1,249 @@
+---
+import type { Locale } from "../i18n/config";
+
+interface Props {
+  locale: Locale;
+  variant: "gardenview" | "camaleon";
+}
+
+const { locale, variant } = Astro.props;
+
+interface Node {
+  title: string;
+  lines: string[];
+}
+
+interface Stage {
+  /** Label on the arrow leading into this stage. */
+  edge?: string;
+  nodes: Node[];
+}
+
+interface Diagram {
+  stages: Stage[];
+  footnote: string;
+  caption: string;
+}
+
+const diagrams: Record<Props["variant"], Record<Locale, Diagram>> = {
+  gardenview: {
+    es: {
+      stages: [
+        {
+          nodes: [
+            {
+              title: "Navegador",
+              lines: ["React 19", "servido por nginx", "es · en · de"],
+            },
+          ],
+        },
+        {
+          edge: "JSON sobre HTTPS",
+          nodes: [
+            {
+              title: "API Spring Boot 3.3",
+              lines: [
+                "acceso con contraseña y OAuth 2.0",
+                "huertos, cultivos, tareas y riegos",
+                "reglas de alerta de clima",
+                "contrato publicado en OpenAPI",
+              ],
+            },
+          ],
+        },
+        {
+          edge: "JDBC",
+          nodes: [
+            { title: "PostgreSQL 17", lines: ["esquema versionado"] },
+            {
+              title: "Servicios externos",
+              lines: ["Open-Meteo · previsión", "almacenamiento de fotos"],
+            },
+          ],
+        },
+      ],
+      footnote: "Los cuatro servicios se definen en un solo docker-compose.yml.",
+      caption:
+        "Dos piezas desplegables y una base de datos. La regla que decide si hay riesgo de helada vive en el servidor, no en la interfaz.",
+    },
+    en: {
+      stages: [
+        {
+          nodes: [
+            {
+              title: "Browser",
+              lines: ["React 19", "served by nginx", "es · en · de"],
+            },
+          ],
+        },
+        {
+          edge: "JSON over HTTPS",
+          nodes: [
+            {
+              title: "Spring Boot 3.3 API",
+              lines: [
+                "password and OAuth 2.0 sign-in",
+                "plots, crops, tasks and waterings",
+                "weather alert rules",
+                "contract published as OpenAPI",
+              ],
+            },
+          ],
+        },
+        {
+          edge: "JDBC",
+          nodes: [
+            { title: "PostgreSQL 17", lines: ["versioned schema"] },
+            {
+              title: "External services",
+              lines: ["Open-Meteo · forecast", "photo storage"],
+            },
+          ],
+        },
+      ],
+      footnote: "All four services are defined in a single docker-compose.yml.",
+      caption:
+        "Two deployable pieces and a database. The rule that decides whether there is a frost risk lives on the server, not in the interface.",
+    },
+  },
+  camaleon: {
+    es: {
+      stages: [
+        {
+          nodes: [
+            {
+              title: "Contenido tipado",
+              lines: [
+                "src/data/*.ts",
+                "obras, actividades, equipo",
+                "el compilador exige cada campo",
+              ],
+            },
+          ],
+        },
+        {
+          edge: "astro build",
+          nodes: [
+            {
+              title: "HTML estático",
+              lines: [
+                "una ruta por archivo",
+                "cero JavaScript por defecto",
+                "imágenes procesadas con sharp",
+              ],
+            },
+          ],
+        },
+        {
+          edge: "puerta de calidad",
+          nodes: [
+            {
+              title: "Comprobaciones",
+              lines: [
+                "Vitest · integridad del contenido",
+                "check-seo · title, description, canonical, un solo h1",
+              ],
+            },
+            {
+              title: "Despliegue",
+              lines: ["Netlify desde main", "camaleonteatro.es"],
+            },
+          ],
+        },
+      ],
+      footnote:
+        "Si una comprobación falla, no hay despliegue: el SEO es una condición, no una intención.",
+      caption:
+        "El contenido entra tipado, sale como HTML y solo se publica si pasa las dos puertas.",
+    },
+    en: {
+      stages: [
+        {
+          nodes: [
+            {
+              title: "Typed content",
+              lines: [
+                "src/data/*.ts",
+                "plays, activities, team",
+                "the compiler demands every field",
+              ],
+            },
+          ],
+        },
+        {
+          edge: "astro build",
+          nodes: [
+            {
+              title: "Static HTML",
+              lines: [
+                "one route per file",
+                "zero JavaScript by default",
+                "images processed with sharp",
+              ],
+            },
+          ],
+        },
+        {
+          edge: "quality gate",
+          nodes: [
+            {
+              title: "Checks",
+              lines: [
+                "Vitest · content integrity",
+                "check-seo · title, description, canonical, a single h1",
+              ],
+            },
+            {
+              title: "Deploy",
+              lines: ["Netlify from main", "camaleonteatro.es"],
+            },
+          ],
+        },
+      ],
+      footnote:
+        "If a check fails there is no deploy: SEO is a condition, not an intention.",
+      caption:
+        "Content goes in typed, comes out as HTML, and only ships if it clears both gates.",
+    },
+  },
+};
+
+const diagram = diagrams[variant][locale];
+
+const altLabel =
+  locale === "es"
+    ? "Diagrama de arquitectura"
+    : "Architecture diagram";
+---
+
+<figure class="diagram">
+  <div class="arch-scroll">
+    <div class="arch" role="img" aria-label={`${altLabel}: ${diagram.caption}`}>
+      {
+        diagram.stages.map((stage) => (
+          <div class="arch-stage">
+            {stage.edge && (
+              <p class="arch-edge">
+                <span aria-hidden="true">↓</span> {stage.edge}
+              </p>
+            )}
+            <div class="arch-nodes">
+              {stage.nodes.map((node) => (
+                <div class="arch-node">
+                  <p class="arch-node-title">{node.title}</p>
+                  <ul>
+                    {node.lines.map((line) => (
+                      <li>{line}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+      <p class="arch-footnote">{diagram.footnote}</p>
+    </div>
+  </div>
+  <figcaption>{diagram.caption}</figcaption>
+</figure>

@@ -1,4 +1,10 @@
+import type { Localized } from "./i18n/config";
+
 export const SITE_URL = "https://paller.dev";
 export const SITE_NAME = "Pablo Aller";
-export const DEFAULT_DESCRIPTION =
-  "Backend developer en Continero. .NET, Java y productos web construidos con criterio técnico.";
+
+/** Rasterised from the vendored Archivo by `npm run og`. */
+export const OG_IMAGE: Localized<string> = {
+  es: "/og/card.png",
+  en: "/og/card-en.png",
+};

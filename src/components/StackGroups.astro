@@ -1,8 +1,0 @@
----
-import { site } from '../content/site';
-import SectionHeading from './SectionHeading.astro';
----
-<section class="section stack-section" aria-labelledby="stack-title"><div class="shell">
-  <SectionHeading id="stack-title" label="Herramientas" title="Tecnología puesta en contexto." intro="No mido conocimientos con barras. Prefiero explicar dónde uso cada herramienta." />
-  <div class="stack-grid">{site.stack.map((group) => <article><h3>{group.label}</h3><p>{group.note}</p><ul class="stack-items">{group.items.map((item) => <li class="mono">{item}</li>)}</ul></article>)}</div>
-</div></section>
