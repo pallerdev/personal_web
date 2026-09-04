@@ -31,6 +31,12 @@ npm run test:e2e
 npm run format:check
 ```
 
+Para repetir las pruebas contra una preview o producción:
+
+```bash
+PLAYWRIGHT_BASE_URL=https://preview.example.com npm run test:e2e
+```
+
 ## Contenido
 
 La información editable vive en `src/content/`:
