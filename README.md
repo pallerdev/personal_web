@@ -37,6 +37,8 @@ Para repetir las pruebas contra una preview o producción:
 PLAYWRIGHT_BASE_URL=https://preview.example.com npm run test:e2e
 ```
 
+En local, Playwright levanta Astro en el puerto dedicado `4327`. La configuración fuerza el modo foreground porque Astro 7 inicia el servidor en segundo plano cuando detecta un agente de desarrollo; Playwright necesita controlar el ciclo de vida del proceso para esperar a que esté listo y cerrarlo al terminar.
+
 ## Contenido
 
 La información editable vive en `src/content/`:
@@ -56,15 +58,7 @@ El build genera sitemap y contiene metadata Open Graph, Twitter cards y datos es
 
 ## Despliegue
 
-La opción prevista es conectar el repositorio con Vercel y publicar `main` en producción. Cada pull request puede generar una preview sin una GitHub Action de despliegue propia.
-
-La CLI de Vercel puede instalarse con:
-
-```bash
-npm i -g vercel
-```
-
-Tras conectar el proyecto, Web Analytics y Speed Insights se pueden activar desde Vercel. No son necesarios para construir o ejecutar el sitio localmente.
+La plataforma prevista es Vercel: `main` se publica en producción y las pull requests generan previews. El procedimiento completo —dominio canónico, configuración del proyecto, DNS, retirada del GitHub Pages antiguo, verificación y rollback— está en [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Privacidad
 
