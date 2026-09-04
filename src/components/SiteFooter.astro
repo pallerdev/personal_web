@@ -1,0 +1,9 @@
+---
+import { site } from '../content/site';
+import ExternalLink from './ExternalLink.astro';
+---
+<footer class="site-footer"><div class="shell footer-grid">
+  <p class="footer-statement">Software con criterio.<br />Personas antes que ruido.</p>
+  <div><p class="mono footer-label">Pablo Aller · 2026</p><p>Hecho con Astro en Linux.</p></div>
+  <div class="footer-links">{site.links.map((link) => <ExternalLink href={link.href}>{link.label}</ExternalLink>)}<a href={`mailto:${site.email}`}>Email</a></div>
+</div></footer>

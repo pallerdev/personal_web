@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FeaturedWork from '../components/FeaturedWork.astro';
+import ExperienceTimeline from '../components/ExperienceTimeline.astro';
+import StackGroups from '../components/StackGroups.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import { site } from '../content/site';
+const personJsonLd = { '@context': 'https://schema.org', '@type': 'Person', name: site.name, jobTitle: site.role, email: `mailto:${site.email}`, url: 'https://paller.dev', sameAs: site.links.map(({ href }) => href), worksFor: { '@type': 'Organization', name: 'Continero', url: 'https://continero.com' } };
+---
+<BaseLayout canonicalPath="/" jsonLd={personJsonLd} home><Hero /><FeaturedWork /><ExperienceTimeline /><StackGroups /><About /><Contact /></BaseLayout>

@@ -1,0 +1,18 @@
+---
+import { projects } from '../content/projects';
+import ExternalLink from './ExternalLink.astro';
+import SectionHeading from './SectionHeading.astro';
+const garden = projects.find(({ slug }) => slug === 'gardenview')!;
+const secondary = projects.find(({ slug }) => slug === 'crud-servidor')!;
+---
+<section class="section" id="work" aria-labelledby="work-title"><div class="shell">
+  <SectionHeading id="work-title" label="Trabajo seleccionado" title="El código importa. El criterio detrás, más." intro="Pocos proyectos, contados desde el problema y las decisiones." />
+  <article class="featured-project">
+    <div class="project-visual"><img src="/images/gardenview-preview.svg" alt="Vista conceptual de GardenView con dos huertos y el estado de sus plantas" width="1200" height="760" /></div>
+    <div class="project-story"><div class="project-meta mono"><span>{garden.type}</span><span>{garden.year}</span></div><h3>{garden.title}</h3><p class="project-summary">{garden.summary}</p><p>{garden.solution}</p>
+      <ul class="tech-list" aria-label="Tecnologías">{garden.technologies.map((item) => <li>{item}</li>)}</ul>
+      <div class="project-links"><a class="text-link" href="/work/gardenview/">Leer el caso <span aria-hidden="true">↗</span></a><ExternalLink class="text-link quiet" href={garden.repository}>Ver código</ExternalLink></div>
+    </div>
+  </article>
+  <article class="secondary-project"><div><p class="mono project-index">Otro trabajo · {secondary.year}</p><h3>{secondary.title}</h3></div><p>{secondary.summary}</p><ul class="tech-list" aria-label="Tecnologías">{secondary.technologies.map((item) => <li>{item}</li>)}</ul><ExternalLink class="text-link" href={secondary.repository}>Repositorio</ExternalLink></article>
+</div></section>

@@ -1,0 +1,8 @@
+---
+const rows = [['Estado', 'En producción'], ['Equipo', 'Continero'], ['Base', 'Brno · CZ'], ['Foco', 'Backend']];
+---
+<aside class="status-panel" aria-label="Contexto profesional actual">
+  <div class="status-top mono"><span class="status-dot" aria-hidden="true"></span>Contexto actual</div>
+  <dl>{rows.map(([term, value]) => <div><dt class="mono">{term}</dt><dd>{value}</dd></div>)}</dl>
+  <p class="status-stack mono">.NET / Java / React / Docker</p>
+</aside>

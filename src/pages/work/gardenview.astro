@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExternalLink from '../../components/ExternalLink.astro';
+import { projects } from '../../content/projects';
+const project = projects.find(({ slug }) => slug === 'gardenview')!;
+const jsonLd = { '@context': 'https://schema.org', '@type': 'SoftwareSourceCode', name: project.title, description: project.summary, codeRepository: project.repository, programmingLanguage: ['PHP', 'JavaScript'], author: { '@type': 'Person', name: 'Pablo Aller' } };
+---
+<BaseLayout title="GardenView" description="Caso de estudio de GardenView: una aplicación Laravel, React e Inertia para gestionar huertos y plantas." canonicalPath="/work/gardenview/" jsonLd={jsonLd}>
+  <article class="case-study"><header class="case-hero"><div class="shell"><a class="back-link mono" href="/#work">← Trabajo seleccionado</a><p class="case-type mono">{project.type} · {project.year}</p><h1>{project.title}</h1><p class="case-lead">{project.summary}</p><dl class="case-facts"><div><dt>Responsabilidad</dt><dd>{project.role}</dd></div><div><dt>Stack</dt><dd>{project.technologies.join(' · ')}</dd></div></dl></div></header>
+  <div class="shell case-body"><figure class="case-preview"><img src="/images/gardenview-preview.svg" alt="Vista conceptual del panel de GardenView con huertos, plantas y tareas" width="1200" height="760" /><figcaption>Visual conceptual basado en el modelo funcional del proyecto.</figcaption></figure>
+  <section class="case-section"><p class="case-label mono">El problema</p><div><h2>Una fuente de verdad para cada huerto.</h2><p>{project.problem}</p></div></section>
+  <section class="case-section"><p class="case-label mono">La solución</p><div><h2>Un flujo completo, sin separar capas por inercia.</h2><p>{project.solution}</p><figure class="system-figure"><img src="/images/gardenview-system.svg" alt="Diagrama: React se conecta mediante Inertia con Laravel, que persiste los datos en SQLite" width="960" height="360" /><figcaption>Inertia conecta la interfaz con Laravel sin introducir una API separada.</figcaption></figure></div></section>
+  <section class="case-section"><p class="case-label mono">Decisiones</p><div><h2>Las decisiones que ordenan el sistema.</h2><ol class="decision-list">{project.decisions.map((decision, index) => <li><span class="mono">0{index + 1}</span><p>{decision}</p></li>)}</ol></div></section>
+  <section class="case-section"><p class="case-label mono">Retrospectiva</p><div><h2>Lo que aprendí y lo que cambiaría.</h2>{project.lessons.map((lesson) => <p>{lesson}</p>)}</div></section>
+  <div class="case-cta"><p>El código y la documentación técnica completa están disponibles en GitHub.</p><ExternalLink class="button button-dark" href={project.repository}>Ver repositorio</ExternalLink></div></div></article>
+</BaseLayout>

@@ -1,0 +1,14 @@
+---
+import { site } from '../content/site';
+import ExternalLink from './ExternalLink.astro';
+import StatusPanel from './StatusPanel.astro';
+---
+<section class="hero" aria-labelledby="hero-title"><div class="shell hero-grid">
+  <div class="hero-copy">
+    <p class="hero-role mono">Pablo Aller · Backend developer</p>
+    <h1 id="hero-title">{site.headline}</h1>
+    <p class="hero-intro">{site.intro}</p>
+    <div class="hero-actions"><a class="button button-primary" href="#work">Ver trabajo</a><a class="button button-secondary" href="#contact">Contactar</a></div>
+    <div class="hero-links">{site.links.map((link) => <ExternalLink href={link.href}>{link.label}</ExternalLink>)}</div>
+  </div><StatusPanel />
+</div></section>

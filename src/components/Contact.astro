@@ -1,0 +1,5 @@
+---
+import { site } from '../content/site';
+import ExternalLink from './ExternalLink.astro';
+---
+<section class="contact" id="contact" aria-labelledby="contact-title"><div class="shell contact-grid"><div><p class="section-kicker mono">Contacto</p><h2 id="contact-title">Si hay un problema interesante, hablemos.</h2></div><div class="contact-copy"><p>Estoy abierto a conocer equipos, productos y colaboraciones donde el software tenga impacto real.</p><a class="contact-email" href={`mailto:${site.email}`}>{site.email}</a><div class="contact-links">{site.links.map((link) => <ExternalLink href={link.href}>{link.label}</ExternalLink>)}</div></div></div></section>

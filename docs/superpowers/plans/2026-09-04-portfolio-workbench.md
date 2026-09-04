@@ -26,11 +26,13 @@
 ### Task 1: Astro foundation and automated checks
 
 **Files:**
+
 - Delete: `src/app/page.js`, `src/app/layout.js`, `next.config.mjs`, `postcss.config.mjs`, `tailwind.config.mjs`, `jsconfig.json`
 - Modify: `package.json`, `package-lock.json`, `.gitignore`, `README.md`
 - Create: `astro.config.ts`, `tsconfig.json`, `src/styles/global.css`, `src/pages/index.astro`, `vitest.config.ts`, `playwright.config.ts`
 
 **Interfaces:**
+
 - Produces: Astro build commands `dev`, `build`, `preview`, `check`, `test`, and `test:e2e`.
 - Produces: global CSS token names consumed by every later component.
 
@@ -43,9 +45,11 @@
 ### Task 2: Typed content and validation
 
 **Files:**
+
 - Create: `src/content/site.ts`, `src/content/projects.ts`, `src/content/experience.ts`, `src/content/education.ts`, `src/lib/content.test.ts`
 
 **Interfaces:**
+
 - Produces: `site: SiteContent`, `projects: Project[]`, `experience: ExperienceItem[]`, `education: EducationItem[]`.
 - `Project` includes `slug`, `title`, `summary`, `problem`, `solution`, `role`, `decisions`, `lessons`, `technologies`, `repository`, and `featured`.
 
@@ -58,10 +62,12 @@
 ### Task 3: Shared document shell and SEO
 
 **Files:**
+
 - Create: `src/config.ts`, `src/lib/seo.ts`, `src/lib/seo.test.ts`, `src/layouts/BaseLayout.astro`, `src/components/SiteHeader.astro`, `src/components/SiteFooter.astro`, `src/components/ExternalLink.astro`, `public/robots.txt`, `public/favicon.svg`
 - Modify: `astro.config.ts`, `src/pages/index.astro`
 
 **Interfaces:**
+
 - Produces: `SITE_URL`, `SITE_NAME`, and `DEFAULT_DESCRIPTION` from `src/config.ts`.
 - Produces: `buildCanonical(pathname: string): string` and `buildTitle(pageTitle?: string): string`.
 - `BaseLayout` accepts `title`, `description`, `canonicalPath`, `image`, and `jsonLd` props.
@@ -77,10 +83,12 @@
 ### Task 4: Workbench home page
 
 **Files:**
+
 - Create: `src/components/SectionHeading.astro`, `src/components/StatusPanel.astro`, `src/components/Hero.astro`, `src/components/FeaturedWork.astro`, `src/components/ExperienceTimeline.astro`, `src/components/StackGroups.astro`, `src/components/About.astro`, `src/components/Contact.astro`
 - Modify: `src/pages/index.astro`, `src/styles/global.css`
 
 **Interfaces:**
+
 - Consumes: typed content modules and `BaseLayout`.
 - Produces: fragment targets `#work`, `#experience`, `#about`, and `#contact`.
 
@@ -96,10 +104,12 @@
 ### Task 5: GardenView case study and visuals
 
 **Files:**
+
 - Create: `src/pages/work/gardenview.astro`, `src/components/ProjectHero.astro`, `src/components/ProjectFacts.astro`, `src/components/SystemDiagram.astro`, `public/images/gardenview-system.svg`, `public/images/gardenview-preview.svg`
 - Modify: `src/styles/global.css`
 
 **Interfaces:**
+
 - Consumes: `projects`, `BaseLayout`, and global visual tokens.
 - Produces: `/work/gardenview/` with `SoftwareSourceCode` JSON-LD and a return path to `/#work`.
 
@@ -114,10 +124,12 @@
 ### Task 6: Error page, social asset, and browser tests
 
 **Files:**
+
 - Create: `src/pages/404.astro`, `public/og/workbench.svg`, `tests/portfolio.spec.ts`
 - Modify: `src/layouts/BaseLayout.astro`, `package.json`
 
 **Interfaces:**
+
 - Consumes: built routes and shared shell.
 - Produces: Playwright coverage for home navigation, case-study navigation, external links, metadata, and 404 recovery.
 
@@ -132,10 +144,12 @@
 ### Task 7: CI, documentation, and production readiness
 
 **Files:**
+
 - Create: `.github/workflows/quality.yml`
 - Modify: `README.md`, `.gitignore`
 
 **Interfaces:**
+
 - Produces: CI quality gate on pushes and pull requests.
 - Produces: operator instructions for local development, content updates, domain replacement, and Vercel deployment.
 
@@ -150,9 +164,11 @@
 ### Task 8: Final verification
 
 **Files:**
+
 - Modify only files required to correct observed defects.
 
 **Interfaces:**
+
 - Consumes: the complete production build.
 - Produces: verified handoff with remaining account-dependent deployment actions clearly identified.
 

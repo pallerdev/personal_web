@@ -1,0 +1,9 @@
+---
+import { education } from '../content/education';
+import SectionHeading from './SectionHeading.astro';
+---
+<section class="section about" id="about" aria-labelledby="about-title"><div class="shell">
+  <SectionHeading id="about-title" label="Trayectoria" title="De Zaragoza a Brno, siempre construyendo." />
+  <div class="about-grid"><div class="about-copy"><p>Descubrí que quería dedicarme al software mientras estudiaba. Desde entonces he combinado formación, proyectos propios y trabajo profesional.</p><p>Vivir en Estados Unidos y ahora en República Checa cambió mi forma de comunicar y colaborar. Fuera del código, me interesan Linux, viajar y la música. Son otras formas de explorar sistemas, lugares e ideas.</p><div class="now-note"><p class="mono">Ahora</p><p>Profundizando en backend, automatización e IA aplicada al trabajo de desarrollo.</p></div></div>
+  <ol class="education-list">{education.map((item) => <li><p class="mono">{item.period}</p><h3>{item.title}</h3><p>{item.institution}</p>{item.detail && <p class="education-detail">{item.detail}</p>}</li>)}</ol></div>
+</div></section>
