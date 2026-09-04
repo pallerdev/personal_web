@@ -106,18 +106,15 @@
   --rule-strong: #111417;
   --signal: #dc3919;
   --signal-ink: #a5290f;
-  --state-open: #d98c00;
-  --state-open-ink: #6f4900;
   --on-signal: #ffffff;
 
-  /* The record band inverts. Declared here so both themes can retune it. */
+  /* The projects band inverts. Declared here so both themes can retune it. */
   --invert-ground: #111417;
   --invert-ground-2: #1c2126;
   --invert-ink: #f3f5f4;
   --invert-ink-2: #a8b1b7;
   --invert-rule: #333a41;
   --invert-signal: #ff6a4d;
-  --invert-state-open: #f2b23c;
 
   --font-display: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
   --font-body:
@@ -145,8 +142,6 @@
     --rule-strong: #edf0f2;
     --signal: #ff5a3c;
     --signal-ink: #ff7f66;
-    --state-open: #f2b23c;
-    --state-open-ink: #f2b23c;
     --on-signal: #0f1216;
     --invert-ground: #1a1f25;
     --invert-ground-2: #23292f;
@@ -154,7 +149,6 @@
     --invert-ink-2: #9ba4ab;
     --invert-rule: #333b43;
     --invert-signal: #ff7f66;
-    --invert-state-open: #f2b23c;
     color-scheme: dark;
   }
 }
@@ -169,8 +163,6 @@
   --rule-strong: #edf0f2;
   --signal: #ff5a3c;
   --signal-ink: #ff7f66;
-  --state-open: #f2b23c;
-  --state-open-ink: #f2b23c;
   --on-signal: #0f1216;
   --invert-ground: #1a1f25;
   --invert-ground-2: #23292f;
@@ -178,7 +170,6 @@
   --invert-ink-2: #9ba4ab;
   --invert-rule: #333b43;
   --invert-signal: #ff7f66;
-  --invert-state-open: #f2b23c;
   color-scheme: dark;
 }
 
@@ -384,7 +375,6 @@ svg {
   --rule: var(--invert-rule);
   --rule-strong: var(--invert-ink);
   --signal-ink: var(--invert-signal);
-  --state-open-ink: var(--invert-state-open);
 }
 
 .index-grid {
@@ -705,32 +695,7 @@ svg {
   max-width: 52ch;
 }
 
-/* --- Ledger (the signature) --------------------------------------------- */
-
-.ledger-product + .ledger-product {
-  margin-top: clamp(2.75rem, 5vw, 4.5rem);
-}
-
-.product-head {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  padding-bottom: 1.1rem;
-  border-bottom: 2px solid var(--rule-strong);
-}
-
-.product-title-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.5rem 1rem;
-}
-
-.product-what {
-  color: var(--ink-2);
-  max-width: 60ch;
-  font-size: 0.98rem;
-}
+/* --- Tags ---------------------------------------------------------------- */
 
 .tag-row {
   display: flex;
@@ -746,106 +711,6 @@ svg {
   border: 1px solid var(--rule);
   color: var(--ink-2);
   white-space: nowrap;
-}
-
-.entry {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.5rem;
-  padding-block: 1.15rem;
-  border-bottom: 1px solid var(--rule);
-}
-
-.entry-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.55rem 0.9rem;
-}
-
-.entry-date {
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  font-weight: 500;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.entry-surface {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--signal-ink);
-}
-
-.entry-summary {
-  max-width: 74ch;
-  font-size: 0.99rem;
-}
-
-.state {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.05em;
-  color: var(--ink-2);
-  white-space: nowrap;
-}
-
-.state-mark {
-  width: 0.62rem;
-  height: 0.62rem;
-  flex: none;
-  border: 2px solid currentColor;
-}
-
-.state-shipped .state-mark {
-  background: currentColor;
-}
-
-.state-review {
-  color: var(--state-open-ink);
-}
-
-.state-live {
-  color: var(--signal-ink);
-}
-
-.state-live .state-mark {
-  background: currentColor;
-}
-
-@media (min-width: 48rem) {
-  .entry {
-    grid-template-columns: 6rem minmax(0, 1fr) 9.5rem;
-    column-gap: clamp(1rem, 2.5vw, 2rem);
-    align-items: start;
-    gap: 0.35rem;
-  }
-
-  .entry-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.3rem;
-  }
-
-  .state {
-    justify-content: flex-end;
-    text-align: right;
-  }
-}
-
-.ledger-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem 1.5rem;
-  margin-top: 2.5rem;
-  padding-top: 1.1rem;
-  border-top: 2px solid var(--rule-strong);
 }
 
 /* --- Projects ------------------------------------------------------------ */
@@ -1289,7 +1154,6 @@ svg {
 /* The label heads the list, so it spans every column of the grid. */
 .other-work > .kicker,
 .language-row > .kicker,
-.ledger-legend > .kicker,
 .surface-list > .kicker {
   grid-column: 1 / -1;
 }

@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import { education, languages } from "../content/education";
 import { experience } from "../content/experience";
-import { ledger, stateLabel } from "../content/ledger";
 import { caseStudies, projects } from "../content/projects";
 import {
   about,
@@ -40,8 +39,6 @@ describe("locales", () => {
       languages,
       experience,
       projects,
-      ledger,
-      stateLabel,
     };
 
     for (const [name, value] of Object.entries(modules)) {
@@ -53,7 +50,6 @@ describe("locales", () => {
 
   it("keeps list lengths equal across languages", () => {
     expect(projects.es).toHaveLength(projects.en.length);
-    expect(ledger.es).toHaveLength(ledger.en.length);
     expect(experience.es).toHaveLength(experience.en.length);
     expect(education.es).toHaveLength(education.en.length);
     expect(stack.es).toHaveLength(stack.en.length);
@@ -125,15 +121,13 @@ describe("projects", () => {
   });
 });
 
-describe("work record", () => {
-  it("matches the pull-request figures quoted in the hero", () => {
+describe("the figures beside the headline", () => {
+  it("quotes the pull-request counts the panel is built from", () => {
     for (const locale of locales) {
-      const byLabel = new Map(
-        facts[locale].map((fact) => [fact.value, fact.label]),
-      );
-      expect([...byLabel.keys()]).toContain("120");
-      expect([...byLabel.keys()]).toContain("85");
-      expect([...byLabel.keys()]).toContain("6");
+      const values = facts[locale].map((fact) => fact.value);
+      expect(values).toContain("120");
+      expect(values).toContain("85");
+      expect(values).toContain("6");
     }
   });
 
@@ -141,50 +135,6 @@ describe("work record", () => {
     const updated = new Date(recordUpdated);
     expect(Number.isNaN(updated.getTime())).toBe(false);
     expect(updated.getTime()).toBeLessThanOrEqual(Date.now());
-  });
-
-  it.each(locales)("dates every %s entry as a resolvable month", (locale) => {
-    for (const product of ledger[locale]) {
-      expect(product.entries.length, product.id).toBeGreaterThan(0);
-      for (const entry of product.entries) {
-        expect(entry.date, product.id).toMatch(/^\d{4}-\d{2}$/);
-        const parsed = new Date(`${entry.date}-01T00:00:00Z`);
-        expect(Number.isNaN(parsed.getTime()), entry.date).toBe(false);
-        expect(parsed.getTime()).toBeLessThanOrEqual(Date.now());
-      }
-    }
-  });
-
-  it("pairs the same products in both languages", () => {
-    expect(ledger.es.map((product) => product.id)).toEqual(
-      ledger.en.map((product) => product.id),
-    );
-  });
-
-  it("gives a link label to every product that has a link", () => {
-    for (const locale of locales) {
-      for (const product of ledger[locale]) {
-        if (product.href) {
-          expect(product.href, product.id).toMatch(/^https:\/\//);
-          expect(product.hrefLabel, product.id).toBeTruthy();
-        } else {
-          expect(product.hrefLabel, product.id).toBeUndefined();
-        }
-      }
-    }
-  });
-
-  it("keeps every state used in the ledger translated", () => {
-    for (const locale of locales) {
-      const used = new Set(
-        ledger[locale].flatMap((product) =>
-          product.entries.map((entry) => entry.state),
-        ),
-      );
-      for (const state of used) {
-        expect(stateLabel[locale][state], `${locale}/${state}`).toBeTruthy();
-      }
-    }
   });
 });
 
@@ -202,7 +152,6 @@ describe("identity", () => {
 
   it("keeps the navigation pointing at sections that exist on the page", () => {
     const sections = new Set([
-      "#registro",
       "#proyectos",
       "#experiencia",
       "#herramientas",
@@ -223,7 +172,6 @@ describe("identity", () => {
       experience,
       education,
       identity,
-      ledger,
       projects,
     });
     expect(everything).not.toMatch(/\+\d{2}\s?\d{3}\s?\d{3}\s?\d{3}/);

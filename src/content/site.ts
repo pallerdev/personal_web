@@ -67,9 +67,9 @@ export const metaDescription: Localized<string> = {
 };
 
 /**
- * Headline figures. Counted from the pull requests authored on
- * github.com/pallerdev across the Continero repositories he has access to,
- * measured on the date in `recordUpdated`.
+ * Headline figures for the panel beside the headline. Counted from the pull
+ * requests authored on github.com/pallerdev across the Continero repositories
+ * he has access to, measured on the date in `recordUpdated`.
  */
 export const recordUpdated = "2026-09-04";
 
@@ -90,14 +90,14 @@ export const facts: Localized<FactRow[]> = {
 
 export const nav: Localized<NavItem[]> = {
   es: [
-    { label: "Registro", hash: "#registro" },
     { label: "Proyectos", hash: "#proyectos" },
+    { label: "Experiencia", hash: "#experiencia" },
     { label: "Herramientas", hash: "#herramientas" },
     { label: "Sobre mí", hash: "#sobre-mi" },
   ],
   en: [
-    { label: "Record", hash: "#registro" },
     { label: "Projects", hash: "#proyectos" },
+    { label: "Experience", hash: "#experiencia" },
     { label: "Tools", hash: "#herramientas" },
     { label: "About", hash: "#sobre-mi" },
   ],

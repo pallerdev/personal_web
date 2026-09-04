@@ -50,44 +50,6 @@ test.describe("every page", () => {
   }
 });
 
-test.describe("the work record", () => {
-  test("lists real, dated entries for every product", async ({ page }) => {
-    await page.goto("/");
-
-    const record = page.locator("#registro");
-    await expect(record).toBeVisible();
-
-    for (const product of [
-      "Artima",
-      "MyEuropeanJourney",
-      "GardenView",
-      "Camaleón Teatro",
-    ]) {
-      await expect(
-        record.getByRole("heading", { level: 3, name: product }),
-      ).toBeVisible();
-    }
-
-    /* Each entry carries a machine-readable month. */
-    const dates = record.locator("time[datetime]");
-    expect(await dates.count()).toBeGreaterThan(10);
-    for (const value of await dates.evaluateAll((nodes) =>
-      nodes.map((node) => node.getAttribute("datetime")),
-    )) {
-      expect(value).toMatch(/^\d{4}-\d{2}$/);
-    }
-  });
-
-  test("does not quote internal commit messages from private repositories", async ({
-    page,
-  }) => {
-    await page.goto("/");
-    const text = (await page.locator("#registro").innerText()).toLowerCase();
-    /* Conventional-commit prefixes would mean a raw internal title leaked in. */
-    expect(text).not.toMatch(/\b(fix|feat|chore|ci)\([a-z-]+\):/);
-  });
-});
-
 test.describe("navigation", () => {
   test("reaches the GardenView case and back again", async ({ page }) => {
     await page.goto("/");

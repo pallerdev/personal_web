@@ -2,7 +2,7 @@
 
 Portfolio de Pablo Aller, backend developer en Continero (Brno). Publicado en español e inglés.
 
-La pieza central no es una galería de proyectos: es un **registro de trabajo entregado**, línea por línea, con la fecha, el producto y el estado de cada cambio. El resto de la página existe para dar contexto a ese registro.
+La pieza central son **dos proyectos contados de principio a fin**: el problema, la arquitectura, las decisiones y lo que cambiaría. El resto de la página existe para dar contexto a esos dos casos.
 
 ## Stack
 
@@ -46,22 +46,25 @@ PLAYWRIGHT_BASE_URL=https://preview.example.com npm run test:e2e
 
 Todo lo editable vive en `src/content/`, con una entrada por idioma:
 
-| Archivo         | Qué contiene                                                      |
-| --------------- | ----------------------------------------------------------------- |
-| `site.ts`       | Identidad, titular, cifras del registro, herramientas y contacto. |
-| `ledger.ts`     | El registro de trabajo entregado, agrupado por producto.          |
-| `projects.ts`   | Proyectos y casos de estudio.                                     |
-| `experience.ts` | Experiencia profesional.                                          |
-| `education.ts`  | Formación e idiomas.                                              |
+| Archivo         | Qué contiene                                         |
+| --------------- | ---------------------------------------------------- |
+| `site.ts`       | Identidad, titular, cifras, herramientas y contacto. |
+| `projects.ts`   | Proyectos y casos de estudio.                        |
+| `experience.ts` | Experiencia profesional.                             |
+| `education.ts`  | Formación e idiomas.                                 |
 
 Los componentes de `src/components/` solo presentan esos datos. Un cambio de texto no debería tocar nunca un `.astro`.
 
-### Reglas del registro
+### Reglas del contenido
 
-- Cada línea corresponde a una pull request o un despliegue reales.
-- El trabajo en repositorios privados de Continero se describe **por funcionalidad**. No se copian mensajes de commit internos: un test de Playwright falla si aparece un prefijo de commit convencional en la sección.
-- Solo se enlazan repositorios públicos. Un test unitario mantiene esa lista cerrada.
-- Las cifras del titular (`facts` en `site.ts`) se cuentan desde las pull requests firmadas en GitHub. La fecha de recuento está en `recordUpdated` y se muestra en la página.
+- Solo se enlazan repositorios públicos. El trabajo en repositorios privados de
+  Continero se describe, nunca se enlaza, y un test unitario mantiene esa lista
+  cerrada.
+- Las cifras del titular (`facts` en `site.ts`) se cuentan desde las pull
+  requests firmadas en GitHub. La fecha de recuento está en `recordUpdated` y se
+  muestra en la página.
+- Nada se afirma sin poder señalar el repositorio, el despliegue o la pull
+  request de donde sale.
 
 ## Idiomas
 
@@ -75,6 +78,7 @@ Dirección: diseño de información checo. Brno es una ciudad funcionalista y el
 
 - Tipografías autoalojadas: **Archivo** (titulares, usando el eje de anchura), **Instrument Sans** (texto) y **JetBrains Mono** (fechas, etiquetas y datos).
 - Tema claro y oscuro. Sin elección explícita se sigue al sistema; el conmutador guarda la preferencia en `localStorage`.
+- La banda de proyectos es el único sitio donde la página levanta la voz: fondo invertido y filete bermellón, con todo lo demás en calma.
 - La paleta se define una sola vez, en `src/styles/global.css`. `src/lib/contrast.test.ts` la lee de vuelta y comprueba cada par que lleva texto contra WCAG AA, así que un color no puede degradarse sin romper un test.
 - La única animación es el filete rojo del encabezado dibujándose al cargar. Es decorativo y no contiene texto, así que nada queda oculto esperando a que termine.
 
@@ -90,7 +94,6 @@ El script forma parte de `npm run build`, así que las tarjetas nunca quedan des
 
 - Auditoría axe-core (`wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa`) sobre las seis páginas, en escritorio y móvil, en tema claro y oscuro. Cero incidencias.
 - Un solo `h1` por página, encabezados en orden y regiones etiquetadas.
-- Los estados del registro se distinguen por forma, texto y posición, no solo por color.
 - Foco visible en todo elemento interactivo y objetivos de al menos 44 px.
 - `prefers-reduced-motion` respetado.
 

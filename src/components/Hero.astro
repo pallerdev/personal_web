@@ -20,18 +20,18 @@ const { locale } = Astro.props;
 
 const copy = {
   es: {
-    seeRecord: "Ver el registro",
+    seeWork: "Ver los proyectos",
     write: "Escríbeme",
-    recordLabel: "Registro de trabajo",
+    recordLabel: "En Continero",
     caption: `Contado a partir de las pull requests firmadas en GitHub. Actualizado el ${new Intl.DateTimeFormat(
       "es-ES",
       { day: "numeric", month: "long", year: "numeric" },
     ).format(new Date(recordUpdated))}.`,
   },
   en: {
-    seeRecord: "See the record",
+    seeWork: "See the projects",
     write: "Write to me",
-    recordLabel: "Work record",
+    recordLabel: "At Continero",
     caption: `Counted from the pull requests authored on GitHub. Updated ${new Intl.DateTimeFormat(
       "en-GB",
       { day: "numeric", month: "long", year: "numeric" },
@@ -50,7 +50,7 @@ const copy = {
       </h1>
       <p class="lede">{intro[locale]}</p>
       <div class="hero-actions">
-        <a class="button" href="#registro">{copy.seeRecord}</a>
+        <a class="button" href="#proyectos">{copy.seeWork}</a>
         <a class="button button-ghost" href={`mailto:${identity.email}`}>
           {copy.write}
         </a>

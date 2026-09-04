@@ -67,13 +67,11 @@ describe.each(themes)("%s theme", (name, tokens) => {
       "--ink-3",
       "--signal",
       "--signal-ink",
-      "--state-open-ink",
       "--on-signal",
       "--invert-ground",
       "--invert-ink",
       "--invert-ink-2",
       "--invert-signal",
-      "--invert-state-open",
     ]) {
       expect(tokens[token], `${name} ${token}`).toMatch(/^#[0-9a-f]{6}$/);
     }
@@ -86,7 +84,6 @@ describe.each(themes)("%s theme", (name, tokens) => {
         tokens["--ink-2"],
         tokens["--ink-3"],
         tokens["--signal-ink"],
-        tokens["--state-open-ink"],
       ]) {
         expect(
           contrast(ink, ground),
@@ -96,12 +93,11 @@ describe.each(themes)("%s theme", (name, tokens) => {
     }
   });
 
-  it("passes AA for text on the inverted record band", () => {
+  it("passes AA for text on the inverted projects band", () => {
     for (const ink of [
       tokens["--invert-ink"],
       tokens["--invert-ink-2"],
       tokens["--invert-signal"],
-      tokens["--invert-state-open"],
     ]) {
       expect(
         contrast(ink, tokens["--invert-ground"]),
