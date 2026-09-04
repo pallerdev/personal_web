@@ -7,11 +7,12 @@ export default defineConfig({
   webServer: externalBaseUrl
     ? undefined
     : {
-        command: "npm run dev -- --host 127.0.0.1",
-        url: "http://127.0.0.1:4321",
-        reuseExistingServer: !process.env.CI,
+        command:
+          "ASTRO_DEV_BACKGROUND=0 npm run dev -- --host 127.0.0.1 --port 4327 --ignore-lock",
+        url: "http://127.0.0.1:4327",
+        reuseExistingServer: false,
       },
-  use: { baseURL: externalBaseUrl ?? "http://127.0.0.1:4321" },
+  use: { baseURL: externalBaseUrl ?? "http://127.0.0.1:4327" },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "mobile", use: { ...devices["Pixel 7"] } },
